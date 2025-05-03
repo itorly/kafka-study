@@ -6,11 +6,13 @@ import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.header.internals.RecordHeaders;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CompletableFuture;
 
 @Component
 public class EventProducer {
@@ -55,5 +57,24 @@ public class EventProducer {
     public void sendDefault() {
         //Integer partition, Long timestamp, K key, V data
         kafkaTemplate.sendDefault(0, System.currentTimeMillis(), "k3", "hello kafka");
+    }
+
+    public void sendDefaultThenBlockingToGet() {
+        //Integer partition, Long timestamp, K key, V data
+        CompletableFuture<SendResult<String, String>> completableFuture
+                = kafkaTemplate.sendDefault(0, System.currentTimeMillis(), "k3", "hello kafka");
+
+        try {
+            //  1、Blocking to get the result.
+            SendResult<String, String> sendResult = completableFuture.get();
+            if (sendResult.getRecordMetadata() != null) {
+                //  The Kafka server confirms that it has received the message.
+                System.out.println("The message was sent successfully: " + sendResult.getRecordMetadata().toString());
+            }
+            System.out.println("producerRecord: " + sendResult.getProducerRecord());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

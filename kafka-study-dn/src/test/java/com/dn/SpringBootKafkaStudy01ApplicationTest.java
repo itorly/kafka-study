@@ -37,4 +37,9 @@ public class SpringBootKafkaStudy01ApplicationTest {
     public void sendDefault() {
         eventProducer.sendDefault();
     }
+
+    @Test
+    public void sendDefaultThenBlockingToGet() {
+        eventProducer.sendDefaultThenBlockingToGet();
+    }
 }
