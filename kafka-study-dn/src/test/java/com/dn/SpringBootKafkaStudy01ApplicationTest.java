@@ -12,8 +12,14 @@ public class SpringBootKafkaStudy01ApplicationTest {
     private EventProducer eventProducer;
 
     @Test
-    public void test01() {
+    public void testSendEvent() {
         eventProducer.sendEvent("hello-topic", "hello kafka");
+    }
+
+    @Test
+    public void testSendEventByMessage() {
+        String topicName = "test-topic";
+        eventProducer.sendEventByMessage(topicName, "hello");
     }
 
 }
