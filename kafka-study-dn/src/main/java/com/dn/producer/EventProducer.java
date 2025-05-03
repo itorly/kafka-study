@@ -46,4 +46,9 @@ public class EventProducer {
         );
         kafkaTemplate.send(producerRecord);
     }
+
+    public void send() {
+        //String topic, Integer partition, Long timestamp, K key, V data
+        kafkaTemplate.send("test-topic", 0, System.currentTimeMillis(), "k2", "hello kafka");
+    }
 }
