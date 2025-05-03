@@ -33,4 +33,8 @@ public class SpringBootKafkaStudy01ApplicationTest {
         eventProducer.send();
     }
 
+    @Test
+    public void sendDefault() {
+        eventProducer.sendDefault();
+    }
 }
