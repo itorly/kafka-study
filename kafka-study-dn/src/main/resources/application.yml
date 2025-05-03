@@ -14,3 +14,6 @@ spring:
       # setting "auto.offset.reset=earliest" will not take effect.
       # Only when it does not find the offset will Kafka use the configuration.
       auto-offset-reset: earliest
+
+    template:
+      default-topic: default-topic
