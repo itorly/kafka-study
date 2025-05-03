@@ -42,4 +42,9 @@ public class SpringBootKafkaStudy01ApplicationTest {
     public void sendDefaultThenBlockingToGet() {
         eventProducer.sendDefaultThenBlockingToGet();
     }
+
+    @Test
+    public void sendDefaultThenNonBlockingToGet() {
+        eventProducer.sendDefaultThenNonBlockingToGet();
+    }
 }

@@ -77,4 +77,28 @@ public class EventProducer {
             throw new RuntimeException(e);
         }
     }
+
+    public void sendDefaultThenNonBlockingToGet() {
+        //Integer partition, Long timestamp, K key, V data
+        CompletableFuture<SendResult<String, String>> completableFuture
+                = kafkaTemplate.sendDefault(0, System.currentTimeMillis(), "k3", "hello kafka");
+
+        try {
+            //2、Non-Blocking
+            completableFuture.thenAccept((sendResult) -> {
+                if (sendResult.getRecordMetadata() != null) {
+                    //kafka服务器确认已经接收到了消息
+                    System.out.println("The message was sent successfully: " + sendResult.getRecordMetadata().toString());
+                }
+                System.out.println("producerRecord: " + sendResult.getProducerRecord());
+            }).exceptionally((t) -> {
+                t.printStackTrace();
+                //  Handle as a failure
+                return null;
+            });
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
