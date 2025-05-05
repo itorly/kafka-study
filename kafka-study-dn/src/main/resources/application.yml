@@ -3,7 +3,9 @@ spring:
     name: kafka-demo
   kafka:
     bootstrap-servers: 192.168.215.128:9092
-#    producer:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       # By default, when a new consumer group is started, it begins consuming from the latest offset of each partition
       # (i.e., the position right after the last message in that partition). If you want to start consuming from the
