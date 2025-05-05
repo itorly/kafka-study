@@ -15,7 +15,7 @@ spring:
       # and Kafka has saved the offset of this consumer group,
       # setting "auto.offset.reset=earliest" will not take effect.
       # Only when it does not find the offset will Kafka use the configuration.
-      auto-offset-reset: earliest
+      auto-offset-reset: latest
 
     template:
       default-topic: default-topic
