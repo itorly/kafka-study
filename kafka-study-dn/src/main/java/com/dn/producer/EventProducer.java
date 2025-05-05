@@ -1,5 +1,6 @@
 package com.dn.producer;
 
+import com.dn.model.User;
 import jakarta.annotation.Resource;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Headers;
@@ -12,6 +13,7 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 @Component
@@ -19,6 +21,12 @@ public class EventProducer {
 
     @Resource
     private KafkaTemplate<String, String> kafkaTemplate;
+
+    @Resource
+    private KafkaTemplate<String, Object> kafkaTemplate2;
+
+    @Resource
+    private KafkaTemplate<Object, Object> kafkaTemplate3;
 
     public void sendEvent(String topic, String message) {
         kafkaTemplate.send(topic, message);
@@ -101,4 +109,11 @@ public class EventProducer {
             throw new RuntimeException(e);
         }
     }
+
+    public void sendEventWhenDataIsObject() {
+        User user = User.builder().id(1208).phone("13709090909").birthDay(new Date()).build();
+        //分区是null，让kafka自己去决定把消息发到哪个分区
+        kafkaTemplate3.sendDefault(null, System.currentTimeMillis(), "k3", user);
+    }
+
 }

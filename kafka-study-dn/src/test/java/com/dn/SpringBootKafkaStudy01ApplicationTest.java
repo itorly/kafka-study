@@ -47,4 +47,10 @@ public class SpringBootKafkaStudy01ApplicationTest {
     public void sendDefaultThenNonBlockingToGet() {
         eventProducer.sendDefaultThenNonBlockingToGet();
     }
+
+    @Test
+    public void sendEventWhenDataIsObject() {
+        eventProducer.sendEventWhenDataIsObject();
+    }
+
 }
