@@ -112,8 +112,12 @@ public class EventProducer {
 
     public void sendEventWhenDataIsObject() {
         User user = User.builder().id(1208).phone("13709090909").birthDay(new Date()).build();
-        //分区是null，让kafka自己去决定把消息发到哪个分区
+        //  The partition is null. Let Kafka decide by itself which partition to send the message to.
         kafkaTemplate3.sendDefault(null, System.currentTimeMillis(), "k3", user);
     }
 
+    public void sendForTesting () {
+        User user = User.builder().id(1208).phone("13709090909").birthDay(new Date()).build();
+        kafkaTemplate2.send("heTopic", null, System.currentTimeMillis(), "k9", user);
+    }
 }

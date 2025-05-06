@@ -53,4 +53,9 @@ public class SpringBootKafkaStudy01ApplicationTest {
         eventProducer.sendEventWhenDataIsObject();
     }
 
+    @Test
+    public void sendForTesting() {
+        eventProducer.sendForTesting();
+    }
+
 }
