@@ -120,4 +120,10 @@ public class EventProducer {
         User user = User.builder().id(1208).phone("13709090909").birthDay(new Date()).build();
         kafkaTemplate2.send("heTopic", null, System.currentTimeMillis(), "k9", user);
     }
+
+    public void sendWithoutPartitionParameter() {
+        User user = User.builder().id(1208).phone("13709090909").birthDay(new Date()).build();
+        kafkaTemplate2.send("heTopic", user);
+    }
+
 }
