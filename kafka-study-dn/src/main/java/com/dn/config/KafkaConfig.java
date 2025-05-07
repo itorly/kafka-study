@@ -41,7 +41,6 @@ public class KafkaConfig {
 
     /**
      * Create a producer factory.
-     * @return
      */
     public ProducerFactory<String, ?> createProducerFactory() {
         return new DefaultKafkaProducerFactory<>(
@@ -52,7 +51,6 @@ public class KafkaConfig {
     /**
      * customize a KafkaTemplate object
      * it will replace the default KafkaTemplate object
-     * @return
      */
     @Bean
     public KafkaTemplate<String, ?> kafkaTemplate() {
