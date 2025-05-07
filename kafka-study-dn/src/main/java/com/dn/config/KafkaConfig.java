@@ -35,6 +35,16 @@ public class KafkaConfig {
         return props;
      }
 
+    /**
+     * Create a producer factory.
+     * @return
+     */
+    public ProducerFactory<String, Object> createProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(
+                producerConfigs()
+        );
+    }
+
 
     //  Send a message to heTopic.
     //  After restarting the project, the messages in the heTopic partition will not be lost.
