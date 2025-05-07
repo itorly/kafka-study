@@ -60,7 +60,9 @@ public class SpringBootKafkaStudy01ApplicationTest {
 
     @Test
     public void sendWithoutPartitionParameter() {
-        eventProducer.sendWithoutPartitionParameter();
+        for (int i = 0; i < 10; i++) {
+            eventProducer.sendWithoutPartitionParameter();
+        }
     }
 
 }
