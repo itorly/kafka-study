@@ -23,7 +23,7 @@ public class CustomerPartitioner implements Partitioner {
             if (next >= numPartitions) {
                 nextPartition.compareAndSet(next, 0);
             }
-            System.out.println("分区值：" + next);
+            System.out.println("Partition value: " + next);
             return next;
         } else {
             return Utils.toPositive(Utils.murmur2(keyBytes)) % numPartitions;
