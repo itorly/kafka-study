@@ -31,10 +31,13 @@ public class KafkaConfig {
     public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>(6);
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        //  Serializer
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializer);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySerializer);
         //  CustomerPartitioner
         props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, CustomerPartitioner.class);
+        //  CustomerProducerInterceptor
+        props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG,  CustomerProducerInterceptor.class.getName());
         return props;
      }
 
