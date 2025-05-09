@@ -33,7 +33,7 @@ public class EventConsumer<T> {
         System.out.println("consumerRecord : " + consumerRecord.toString());
     }
 
-    @KafkaListener(topics = {"helloTopic"}, groupId = "helloGroup")
+//    @KafkaListener(topics = {"helloTopic"}, groupId = "helloGroup")
     public void onEventWhenParameterIsJsonString(
             String jsonString,
 //            Class<T> clazz,
@@ -42,7 +42,21 @@ public class EventConsumer<T> {
             ConsumerRecord<String, String> consumerRecord) {
 //        T t = JSONUtils.toBean(jsonString, clazz);
         User user = JSONUtils.toBean(jsonString, User.class);
-        System.out.println("EventConsumer onEvent 1: " + jsonString +
+        System.out.println("EventConsumer onEvent 2: " + jsonString +
+                ", \nuser : " + user +
+                ", \ntopic : " + topic +
+                ", \npartition : " + partition);
+        System.out.println("consumerRecord : " + consumerRecord.toString());
+    }
+
+    @KafkaListener(topics = {"${kafka.topic.name}"}, groupId = "${kafka.consumer.group}")
+    public void onEvent3(
+            String jsonString,
+            @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic,
+            @Header(value = KafkaHeaders.RECEIVED_PARTITION) String partition,
+            ConsumerRecord<String, String> consumerRecord) {
+        User user = JSONUtils.toBean(jsonString, User.class);
+        System.out.println("EventConsumer onEvent 3: " + jsonString +
                 ", \nuser : " + user +
                 ", \ntopic : " + topic +
                 ", \npartition : " + partition);
