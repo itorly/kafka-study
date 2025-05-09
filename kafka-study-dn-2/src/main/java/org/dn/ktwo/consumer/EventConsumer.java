@@ -1,5 +1,6 @@
 package org.dn.ktwo.consumer;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -22,9 +23,11 @@ public class EventConsumer {
             @Payload String event,
             @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic,
 //            @Header(value = KafkaHeaders.RECEIVED_KEY) String key,
-            @Header(value = KafkaHeaders.RECEIVED_PARTITION) String partition) {
-        System.out.println("EventConsumer onEvent: " + event +
+            @Header(value = KafkaHeaders.RECEIVED_PARTITION) String partition,
+            ConsumerRecord<String, String> consumerRecord) {
+        System.out.println("EventConsumer onEvent 1: " + event +
                 ", topic : " + topic +
                 ", partition : " + partition);
+        System.out.println("consumerRecord : " + consumerRecord.toString());
     }
 }
