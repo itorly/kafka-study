@@ -71,13 +71,18 @@ public class EventConsumer<T> {
             @Header(value = KafkaHeaders.RECEIVED_PARTITION) String partition,
             @Payload ConsumerRecord<String, String> consumerRecord,
             Acknowledgment ack) {
-        User user = JSONUtils.toBean(jsonString, User.class);
-        System.out.println("EventConsumer onEvent 4: " + jsonString +
-                ", \nuser : " + user +
-                ", \ntopic : " + topic +
-                ", \npartition : " + partition);
-        System.out.println("consumerRecord : " + consumerRecord.toString());
-
-        ack.acknowledge();
+        try {
+            User user = JSONUtils.toBean(jsonString, User.class);
+            System.out.println("EventConsumer onEvent 4: " + jsonString +
+                    ", \nuser : " + user +
+                    ", \ntopic : " + topic +
+                    ", \npartition : " + partition);
+            System.out.println("consumerRecord : " + consumerRecord.toString());
+            //
+            ack.acknowledge();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }
