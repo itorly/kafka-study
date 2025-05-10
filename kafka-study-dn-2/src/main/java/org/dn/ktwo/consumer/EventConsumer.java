@@ -4,6 +4,8 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.dn.ktwo.model.User;
 import org.dn.ktwo.util.JSONUtils;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.PartitionOffset;
+import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -64,7 +66,7 @@ public class EventConsumer<T> {
         System.out.println("consumerRecord : " + consumerRecord.toString());
     }
 
-    @KafkaListener(topics = {"${kafka.topic.name}"}, groupId = "${kafka.consumer.group}")
+//    @KafkaListener(topics = {"${kafka.topic.name}"}, groupId = "${kafka.consumer.group}")
     public void onEvent4(
             String jsonString,
             @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic,
@@ -78,8 +80,35 @@ public class EventConsumer<T> {
                     ", \ntopic : " + topic +
                     ", \npartition : " + partition);
             System.out.println("consumerRecord : " + consumerRecord.toString());
-            //
-            ack.acknowledge();
+            //  Business processing is completed. Confirm to the Kafka server.
+            ack.acknowledge();  //   Manually confirming a message means informing the Kafka server that this message have been received . By default, Kafka automatically confirms messages.
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @KafkaListener(groupId = "${kafka.consumer.group}",
+            topicPartitions = {
+                    @TopicPartition(
+                            topic = "${kafka.topic.name}",
+                            partitions = {"0", "1", "2"},
+                            partitionOffsets = {
+                                    @PartitionOffset(partition = "3", initialOffset = "3"),
+                                    @PartitionOffset(partition = "4", initialOffset = "3")
+                            })
+            })
+    public void onEvent5(String userJSON,
+                         @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic,
+                         @Header(value = KafkaHeaders.RECEIVED_PARTITION) String partition,
+                         @Payload ConsumerRecord<String, String> record,
+                         Acknowledgment ack) {
+        try {
+            //  After receiving the message, process the business.
+            User user = JSONUtils.toBean(userJSON, User.class);
+            System.out.println("EventConsumer onEvent 5：" + user + ", topic : " + topic + ", partition : " + partition);
+            //  Business processing is completed. Confirm to the Kafka server.
+            ack.acknowledge(); //   Manually confirming a message means informing the Kafka server that this message have been received . By default, Kafka automatically confirms messages.
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
