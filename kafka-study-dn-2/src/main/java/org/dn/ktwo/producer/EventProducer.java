@@ -6,6 +6,8 @@ import org.dn.ktwo.util.JSONUtils;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class EventProducer {
 
@@ -19,9 +21,25 @@ public class EventProducer {
         kafkaTemplate.send(topic, message);
     }
 
-    public void sendEventWhenParameterIsBean(User user) {
+    public void sendEventWhenParameterIsBean(User user, String topic) {
         String userJSON = JSONUtils.toJSON(user);
-        kafkaTemplate.send("helloTopic", userJSON);
+        kafkaTemplate.send(topic, userJSON);
+    }
+
+    public void sendEventWhenParameterIsBean(String topic, String keyPrefix, String phoneNumPrefix) {
+        for ( int i = 0; i < 25; i++) {
+            String formatted = String.format("%02d", i);
+            User user = User.builder().
+                    id(i).
+                    phone(phoneNumPrefix + formatted).
+                    birthDay(new Date()).
+                    build();
+
+            String key = keyPrefix + i;
+
+            String userJSON = JSONUtils.toJSON(user);
+            kafkaTemplate.send(topic, key, userJSON);
+        }
     }
 
 }

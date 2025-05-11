@@ -107,6 +107,7 @@ public class EventConsumer<T> {
             //  After receiving the message, process the business.
             User user = JSONUtils.toBean(userJSON, User.class);
             System.out.println("EventConsumer onEvent 5：" + user + ", topic : " + topic + ", partition : " + partition);
+            System.out.println("ConsumerRecord: " + record.toString());
             //  Business processing is completed. Confirm to the Kafka server.
             ack.acknowledge(); //   Manually confirming a message means informing the Kafka server that this message have been received . By default, Kafka automatically confirms messages.
         } catch (Exception e) {
