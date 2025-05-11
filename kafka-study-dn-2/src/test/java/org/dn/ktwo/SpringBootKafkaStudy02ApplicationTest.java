@@ -25,7 +25,18 @@ public class SpringBootKafkaStudy02ApplicationTest {
                 phone("13709090910").
                 birthDay(new Date()).
                 build();
+        String topic = "helloTopic";
 
-        eventProducer.sendEventWhenParameterIsBean(user);
+        eventProducer.sendEventWhenParameterIsBean(user, topic);
     }
+
+    @Test
+    public void testLoopSendEventWhenParameterIsBean() {
+        String phoneNumPrefix = "137090909";
+        String topic = "helloTopic";
+        String keyPrefix = "k";
+
+        eventProducer.sendEventWhenParameterIsBean(topic, keyPrefix, phoneNumPrefix);
+    }
+
 }
