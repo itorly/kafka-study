@@ -9,3 +9,4 @@ spring:
     consumer:
       # The maximum number of consumption records per batch consumption
       max-poll-records: 20
+      auto-offset-reset: earliest
