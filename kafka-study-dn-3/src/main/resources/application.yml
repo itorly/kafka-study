@@ -3,3 +3,9 @@ spring:
     name: kafka-demo-3
   kafka:
     bootstrap-servers: 192.168.215.128:9092
+    listener:
+      # Batch consumption mode
+      type: batch
+    consumer:
+      # The maximum number of consumption records per batch consumption
+      max-poll-records: 20
