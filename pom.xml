@@ -18,6 +18,7 @@
     <modules>
         <module>kafka-study-dn</module>
         <module>kafka-study-dn-2</module>
+        <module>kafka-study-dn-3</module>
     </modules>
 
     <properties>
