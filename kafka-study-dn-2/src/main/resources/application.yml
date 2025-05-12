@@ -3,11 +3,10 @@ spring:
     name: kafka-demo-2
   kafka:
     bootstrap-servers: 192.168.215.128:9092
-#    consumer:
-#      max-poll-records: 20
+    consumer:
+      auto-offset-reset: earliest
     listener:
       ack-mode: manual
-#      type: batch
 
 # Custom configuration
 kafka:

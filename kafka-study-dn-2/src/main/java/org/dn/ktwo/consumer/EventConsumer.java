@@ -92,8 +92,10 @@ public class EventConsumer<T> {
             topicPartitions = {
                     @TopicPartition(
                             topic = "${kafka.topic.name}",
-                            partitions = {"0", "1", "2"},
+                            partitions = {"1"},
                             partitionOffsets = {
+                                    @PartitionOffset(partition = "0", initialOffset = "1"),
+                                    @PartitionOffset(partition = "2", initialOffset = "2"),
                                     @PartitionOffset(partition = "3", initialOffset = "3"),
                                     @PartitionOffset(partition = "4", initialOffset = "3")
                             })
@@ -107,7 +109,7 @@ public class EventConsumer<T> {
             //  After receiving the message, process the business.
             User user = JSONUtils.toBean(userJSON, User.class);
             System.out.println("EventConsumer onEvent 5：" + user + ", topic : " + topic + ", partition : " + partition);
-            System.out.println("ConsumerRecord: " + record.toString());
+//            System.out.println("ConsumerRecord: " + record.toString());
             //  Business processing is completed. Confirm to the Kafka server.
             ack.acknowledge(); //   Manually confirming a message means informing the Kafka server that this message have been received . By default, Kafka automatically confirms messages.
         } catch (Exception e) {
